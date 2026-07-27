@@ -1,6 +1,6 @@
 # Anxiety Detection: Small Fine-Tuned Models vs. Frontier LLMs
 
-Code accompanying ***Anxiety Detection on Social Media: Do Models Read the Language, or Just the Word “Anxiety”?*** (BTM710, Seneca Polytechnic, 2026).
+Code accompanying ***Anxiety Detection on Social Media: Do Models Read the Language, or Just the Word “Anxiety”?*** (Seneca Polytechnic, 2026).
 
 ## Setup
 1. Request SWMH access: https://huggingface.co/datasets/AIMH/SWMH
