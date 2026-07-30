@@ -46,30 +46,16 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics import classification_report, f1_score
 from sklearn.svm import LinearSVC
 
-LABELS = ["depression", "SuicideWatch", "Anxiety", "bipolar"]
 SEED = 42
 
-# Must match check_leakage.py and train_llm_qlora.py's STRIP_TERMS.
-STRIP_TERMS = {
-    "anxiety": ["anxiety", "anxious", "anxieties"],
-    "depression": ["depression", "depressed", "depressive"],
-    "bipolar": ["bipolar", "manic", "mania", "hypomania"],
-    "suicidewatch": ["suicide", "suicidal", "kill myself", "end my life"],
-}
+import sys, os
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from labels import LABELS, STRIP_TERMS, strip_keywords
 
-
-def strip_keywords(text):
-    out = text
-    for terms in STRIP_TERMS.values():
-        for t in terms:
-            out = re.sub(r"\b" + re.escape(t) + r"\w*", "[REDACTED]", out, flags=re.I)
-    return out
-
-
-def load_split(path, variant):
+def load_split(path, variant, redaction_mode="delete"):
     df = pd.read_csv(path)
     if variant == "stripped":
-        df["text"] = df["text"].astype(str).apply(strip_keywords)
+        df["text"] = df["text"].astype(str).apply(lambda t: strip_keywords(t, mode=redaction_mode))
     return df
 
 
@@ -79,12 +65,13 @@ def main():
     ap.add_argument("--data-dir", default="data/processed/4class")
     ap.add_argument("--out-dir", default="results")
     ap.add_argument("--max-features", type=int, default=50000)
+    ap.add_argument("--redaction-mode", default="delete", choices=["delete", "neutral", "mask"])
     args = ap.parse_args()
 
     print(f"Variant: {args.variant}")
 
-    train_df = load_split(os.path.join(args.data_dir, "train.csv"), args.variant)
-    test_df = load_split(os.path.join(args.data_dir, "test.csv"), args.variant)
+    train_df = load_split(os.path.join(args.data_dir, "train.csv"), args.variant, args.redaction_mode)
+    test_df = load_split(os.path.join(args.data_dir, "test.csv"), args.variant, args.redaction_mode)
     print(f"train={len(train_df)}  test={len(test_df)}")
     print("train class balance:\n", train_df["label"].value_counts(normalize=True).round(3))
 
@@ -115,6 +102,7 @@ def main():
         json.dump({
             "model": "TF-IDF (1-2gram) + LinearSVC",
             "variant": args.variant,
+            "redaction_mode": args.redaction_mode if args.variant == "stripped" else None,
             "macro_f1": macro_f1,
             "anxiety_f1": report.get("Anxiety", {}).get("f1-score"),
             "unparseable_rate": 0.0,  # SVM always predicts a valid class

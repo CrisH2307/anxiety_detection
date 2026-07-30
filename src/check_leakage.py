@@ -1,36 +1,27 @@
+
 """
-Keyword leakage check (corrected).
+Keyword leakage check.
 
-The earlier version searched for the raw label string ("self.Anxiety"), which
-never matches. This strips the "self." prefix and also checks morphological
-variants, since a post in r/Anxiety is likely to say "anxious" rather than
-"anxiety".
-
-Why this matters: SWMH labels come from subreddit membership. If posts contain
-their own condition name, a classifier can score well by keyword matching
-instead of by detecting the underlying language. Zhu et al. (2025) address this
-by building a keyword-removed variant (DAUR_PRE). We need our own numbers
-before deciding whether to do the same.
+Measures how often a post contains a term naming its own class. Uses the
+SAME lexicon the training scripts strip with (labels.STRIP_TERMS), so the
+reported percentage describes exactly what redaction removes. Previously
+this file kept a private CLASS_TERMS copy, which would silently diverge the
+moment the strip lexicon changed.
 
 Usage:
-    python src/check_leakage.py --data-dir data/raw
+    python src/check_leakage.py --data-dir data/processed/4class
 """
 
 import argparse
 import glob
 import os
 import re
+import sys
 
 import pandas as pd
 
-# Surface forms to test per class. Word-boundary matched, case-insensitive.
-CLASS_TERMS = {
-    "anxiety": ["anxiety", "anxious", "anxieties"],
-    "depression": ["depression", "depressed", "depressive"],
-    "bipolar": ["bipolar", "manic", "mania", "hypomania"],
-    "suicidewatch": ["suicide", "suicidal", "kill myself", "end my life"],
-    "offmychest": ["off my chest", "vent", "venting"],
-}
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from labels import STRIP_TERMS
 
 
 def normalize(label):
@@ -39,7 +30,7 @@ def normalize(label):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--data-dir", default="data/raw")
+    ap.add_argument("--data-dir", default="data/processed/4class")
     ap.add_argument("--text-col", default="text")
     ap.add_argument("--label-col", default="label")
     args = ap.parse_args()
@@ -62,9 +53,8 @@ def main():
         for cls in sorted(df["_cls"].unique()):
             mask = df["_cls"] == cls
             sub_text = text[mask]
-            terms = CLASS_TERMS.get(cls, [cls])
+            terms = STRIP_TERMS.get(cls, [cls])
 
-            # Does the post contain a term for its OWN class?
             own = pd.Series(False, index=sub_text.index)
             per_term = {}
             for t in terms:
@@ -73,27 +63,19 @@ def main():
                 per_term[t] = hit.mean() * 100
                 own = own | hit
 
-            # Does the post contain a term for ANY class? (cross-class noise)
             any_hit = pd.Series(False, index=sub_text.index)
-            for other_terms in CLASS_TERMS.values():
+            for other_terms in STRIP_TERMS.values():
                 for t in other_terms:
                     pat = r"\b" + re.escape(t) + r"\w*"
                     any_hit = any_hit | sub_text.str.contains(pat, regex=True, na=False)
 
             top = max(per_term, key=per_term.get)
-            print(
-                f"{cls:<15}{own.mean() * 100:>11.1f}%{any_hit.mean() * 100:>11.1f}%"
-                f"   {top} ({per_term[top]:.1f}%)"
-            )
+            print(f"{cls:<15}{own.mean()*100:>11.1f}%{any_hit.mean()*100:>11.1f}%"
+                  f"   {top} ({per_term[top]:.1f}%)")
 
-    print("\n" + "=" * 72)
-    print("INTERPRETATION")
-    print("=" * 72)
-    print("own-term % under ~25%: leakage is mild. Note it, no stripped variant needed.")
-    print("own-term % 25-50%:     borderline. Run the stripped variant as a")
-    print("                       robustness check on the anxiety class at minimum.")
-    print("own-term % over ~50%:  substantial. A keyword-stripped variant becomes")
-    print("                       a required condition, not optional.")
+    print("\nNote: percentages are computed WITHIN each class independently")
+    print("and do not sum to 100. 'any-term' counts posts containing a term")
+    print("belonging to any class, capturing cross-class comorbidity language.")
 
 
 if __name__ == "__main__":
