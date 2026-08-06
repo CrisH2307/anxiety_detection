@@ -1,0 +1,48 @@
+{
+  "model": "bert-base-uncased",
+  "variant": "stripped",
+  "macro_f1": 0.6783077179435948,
+  "anxiety_f1": 0.694006309148265,
+  "unparseable_rate": 0.0,
+  "full_report": {
+    "depression": {
+      "precision": 0.71617497456765,
+      "recall": 0.5614035087719298,
+      "f1-score": 0.629414394278051,
+      "support": 3762.0
+    },
+    "SuicideWatch": {
+      "precision": 0.6281169389509889,
+      "recall": 0.7247023809523809,
+      "f1-score": 0.672961768770152,
+      "support": 2016.0
+    },
+    "Anxiety": {
+      "precision": 0.6074950690335306,
+      "recall": 0.8092485549132948,
+      "f1-score": 0.694006309148265,
+      "support": 1903.0
+    },
+    "bipolar": {
+      "precision": 0.7509211495946941,
+      "recall": 0.6857335127860027,
+      "f1-score": 0.7168483995779107,
+      "support": 1486.0
+    },
+    "accuracy": 0.6689211301407222,
+    "macro avg": {
+      "precision": 0.6756770330367159,
+      "recall": 0.6952719893559021,
+      "f1-score": 0.6783077179435948,
+      "support": 9167.0
+    },
+    "weighted avg": {
+      "precision": 0.6798806532035799,
+      "recall": 0.6689211301407222,
+      "f1-score": 0.6665734269877363,
+      "support": 9167.0
+    }
+  },
+  "n_train": 29558,
+  "n_test": 9167
+}

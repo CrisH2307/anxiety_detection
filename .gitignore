@@ -1,0 +1,6 @@
+notebooks/
+results/
+data/
+.venv/
+.env
+.DS_Store

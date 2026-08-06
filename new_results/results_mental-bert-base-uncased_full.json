@@ -1,0 +1,48 @@
+{
+  "model": "mental/mental-bert-base-uncased",
+  "variant": "full",
+  "macro_f1": 0.7548410416078958,
+  "anxiety_f1": 0.8306472919418758,
+  "unparseable_rate": 0.0,
+  "full_report": {
+    "depression": {
+      "precision": 0.8136188136188136,
+      "recall": 0.6161616161616161,
+      "f1-score": 0.7012554832854334,
+      "support": 3762.0
+    },
+    "SuicideWatch": {
+      "precision": 0.6004936530324401,
+      "recall": 0.8447420634920635,
+      "f1-score": 0.7019785655399835,
+      "support": 2016.0
+    },
+    "Anxiety": {
+      "precision": 0.8352816153028693,
+      "recall": 0.8260641093011035,
+      "f1-score": 0.8306472919418758,
+      "support": 1903.0
+    },
+    "bipolar": {
+      "precision": 0.7575,
+      "recall": 0.8156123822341858,
+      "f1-score": 0.7854828256642904,
+      "support": 1486.0
+    },
+    "accuracy": 0.7423366423039163,
+    "macro avg": {
+      "precision": 0.7517235204885307,
+      "recall": 0.7756450427972422,
+      "f1-score": 0.7548410416078958,
+      "support": 9167.0
+    },
+    "weighted avg": {
+      "precision": 0.762148477721036,
+      "recall": 0.7423366423039163,
+      "f1-score": 0.7419287871442056,
+      "support": 9167.0
+    }
+  },
+  "n_train": 29558,
+  "n_test": 9167
+}

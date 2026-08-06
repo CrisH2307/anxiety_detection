@@ -1,0 +1,49 @@
+{
+  "model": "TF-IDF (1-2gram) + LinearSVC",
+  "variant": "stripped",
+  "macro_f1": 0.6286701711239632,
+  "anxiety_f1": 0.6318524292023903,
+  "unparseable_rate": 0.0,
+  "full_report": {
+    "depression": {
+      "precision": 0.635967302452316,
+      "recall": 0.620414673046252,
+      "f1-score": 0.6280947255113025,
+      "support": 3762.0
+    },
+    "SuicideWatch": {
+      "precision": 0.5902345619913835,
+      "recall": 0.6116071428571429,
+      "f1-score": 0.6007308160779538,
+      "support": 2016.0
+    },
+    "Anxiety": {
+      "precision": 0.6248715313463515,
+      "recall": 0.6389910667367315,
+      "f1-score": 0.6318524292023903,
+      "support": 1903.0
+    },
+    "bipolar": {
+      "precision": 0.6593707250341997,
+      "recall": 0.648721399730821,
+      "f1-score": 0.6540027137042063,
+      "support": 1486.0
+    },
+    "accuracy": 0.6269226573579143,
+    "macro avg": {
+      "precision": 0.6276110302060627,
+      "recall": 0.6299335705927368,
+      "f1-score": 0.6286701711239632,
+      "support": 9167.0
+    },
+    "weighted avg": {
+      "precision": 0.6274001625780702,
+      "recall": 0.6269226573579143,
+      "f1-score": 0.6270567129838851,
+      "support": 9167.0
+    }
+  },
+  "redaction_mode": "delete",
+  "n_train": 29558,
+  "n_test": 9167
+}

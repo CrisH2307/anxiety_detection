@@ -1,0 +1,58 @@
+{
+  "model": "openai/gpt-5.6-luna",
+  "variant": "stripped",
+  "macro_f1": 0.6094698456382278,
+  "anxiety_f1": 0.7203579418344519,
+  "unparseable_rate": 0.149,
+  "full_report": {
+    "depression": {
+      "precision": 0.7177314211212517,
+      "recall": 0.5365497076023392,
+      "f1-score": 0.6140546569994423,
+      "support": 2052.0
+    },
+    "SuicideWatch": {
+      "precision": 0.47147147147147145,
+      "recall": 0.42818181818181816,
+      "f1-score": 0.44878513577894236,
+      "support": 1100.0
+    },
+    "Anxiety": {
+      "precision": 0.672514619883041,
+      "recall": 0.7755298651252408,
+      "f1-score": 0.7203579418344519,
+      "support": 1038.0
+    },
+    "bipolar": {
+      "precision": 0.8323809523809523,
+      "recall": 0.5395061728395062,
+      "f1-score": 0.6546816479400749,
+      "support": 810.0
+    },
+    "micro avg": {
+      "precision": 0.6613396004700353,
+      "recall": 0.5628,
+      "f1-score": 0.6081037277147487,
+      "support": 5000.0
+    },
+    "macro avg": {
+      "precision": 0.6735246162141791,
+      "recall": 0.569941890937226,
+      "f1-score": 0.6094698456382278,
+      "support": 5000.0
+    },
+    "weighted avg": {
+      "precision": 0.6727404483253189,
+      "recall": 0.5628,
+      "f1-score": 0.6063454967950628,
+      "support": 5000.0
+    }
+  },
+  "n_test": 5000,
+  "usage": {
+    "prompt_tokens": 1067774,
+    "completion_tokens": 27192,
+    "total_tokens": 1094966
+  },
+  "checkpoint": "results\\openrouter_openai_gpt-5.6-luna_stripped.jsonl"
+}

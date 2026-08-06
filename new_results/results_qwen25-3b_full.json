@@ -1,0 +1,54 @@
+{
+  "model": "Qwen/Qwen2.5-3B-Instruct",
+  "variant": "full",
+  "macro_f1": 0.7126091543603195,
+  "anxiety_f1": 0.8123393316195373,
+  "unparseable_rate": 0.03316243045707429,
+  "full_report": {
+    "depression": {
+      "precision": 0.6324769938650306,
+      "recall": 0.8769271664008507,
+      "f1-score": 0.7349075517932725,
+      "support": 3762.0
+    },
+    "SuicideWatch": {
+      "precision": 0.7951598962834918,
+      "recall": 0.45634920634920634,
+      "f1-score": 0.579892845887173,
+      "support": 2016.0
+    },
+    "Anxiety": {
+      "precision": 0.8898623279098874,
+      "recall": 0.7472411981082502,
+      "f1-score": 0.8123393316195373,
+      "support": 1903.0
+    },
+    "bipolar": {
+      "precision": 0.9641255605381166,
+      "recall": 0.5787348586810229,
+      "f1-score": 0.7232968881412952,
+      "support": 1486.0
+    },
+    "micro avg": {
+      "precision": 0.73349881529956,
+      "recall": 0.7091742118468419,
+      "f1-score": 0.7211314475873544,
+      "support": 9167.0
+    },
+    "macro avg": {
+      "precision": 0.8204061946491317,
+      "recall": 0.6648131073848326,
+      "f1-score": 0.7126091543603195,
+      "support": 9167.0
+    },
+    "weighted avg": {
+      "precision": 0.7754466450092639,
+      "recall": 0.7091742118468419,
+      "f1-score": 0.7150089572384396,
+      "support": 9167.0
+    }
+  },
+  "redaction_mode": null,
+  "n_train": 9997,
+  "n_test": 9167
+}
